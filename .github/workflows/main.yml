@@ -1,0 +1,68 @@
+name: CI/CD Pipeline
+
+on:
+    push:
+        branches:
+            - main
+
+env:
+    IMAGE_NAME: nicolasbonzini/juiceshopgithub
+    IMAGE_TAG: devsecops-1.1
+
+jobs:
+    cache:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v2
+
+            - name: Cache dependencies
+              uses: actions/cache@v2
+              with:
+                path: |
+                    node_modules/
+                    yarn.lock
+                    .yarn
+                key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock')}}
+                restore-keys: |
+                 ${{ runner.os }}-yarn-
+
+            - name: Install dependencies
+              run: yarn install
+
+    test:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@2
+            - name: Cache dependencies
+              uses: actions/cache@v2
+              with:
+                path: |
+                  node_modules/
+                  yarn.lock
+                  .yarn
+                key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+                restore-keys: |
+                  ${{ runner.os }}-yarn-
+      
+            - name: Install dependencies
+              run: yarn install
+      
+            - name: Run tests
+              run: yarn test
+      
+    build:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v2
+      
+            - name: Login to DockerHub
+              run: echo ${{ secrets.DOCKER_PASS }} | docker login -u ${{ secrets.DOCKER_USER }} --password-stdin
+      
+            - name: Build Docker image
+              run: |
+                docker build -t ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }} .
+                docker push ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
+            
