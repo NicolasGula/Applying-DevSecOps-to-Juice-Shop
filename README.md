@@ -60,6 +60,16 @@ For a detailed introduction, full list of features and architecture overview ple
 - [Contributors](#contributors)
 - [Licensing](#licensing)
 
+
+## 1 - Build a Pipeline
+
+Build a basic CI Pipeline
+1. Run a test
+2. Build image
+3. Push to a Docker hub's private rpository
+
+## 2 - Add GitLeaks for Scanning Hardcode Secrets
+
 ## Setup
 
 > You can find some less common installation variations in
