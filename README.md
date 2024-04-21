@@ -66,9 +66,9 @@ For a detailed introduction, full list of features and architecture overview ple
 Build a basic CI Pipeline
 1. Run a test
 2. Build image
-3. Push to a Docker hub's private rpository
+3. Push to a Docker hub's private repository
 
-## 2 - Add GitLeaks for Scanning Hardcode Secrets
+## 2 - Integrate GitLeaks into CI Pipeline for Scanning Hardcode Secrets
 
 ## Setup
 
